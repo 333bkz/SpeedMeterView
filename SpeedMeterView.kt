@@ -1,5 +1,6 @@
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.CornerPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
@@ -10,7 +11,7 @@ import androidx.core.content.ContextCompat
 import kotlin.math.cos
 import kotlin.math.sin
 
-class MeterView @JvmOverloads constructor(
+class SpeedMeterView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -74,28 +75,27 @@ class MeterView @JvmOverloads constructor(
             field = value
             filledScalePaint.color = value ?: color
         }
-    private val scalePaint: Paint = Paint().apply {      // 表盘刻度画笔
-        isAntiAlias = true
+    private val scalePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {      // 表盘刻度画笔
         strokeWidth = 1f
         style = Paint.Style.STROKE
-        color = this@MeterView.color
+        color = this@SpeedMeterView.color
+        pathEffect = CornerPathEffect(2f)
     }
-    private val filledScalePaint: Paint = Paint().apply { // 实心刻度画笔
-        isAntiAlias = true
+    private val filledScalePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { // 实心刻度画笔
         style = Paint.Style.FILL
-        color = this@MeterView.filledScaleColor ?: color
+        color = this@SpeedMeterView.filledScaleColor ?: color
+
     }
-    private val textPaint: Paint = Paint().apply {      // 文字画笔
-        isAntiAlias = true
+    private val textPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {      // 文字画笔
         textSize = scaleTextSize
         textAlign = Paint.Align.CENTER
-        color = this@MeterView.color
+        color = this@SpeedMeterView.color
     }
-    private val pointerPaint: Paint = Paint().apply {   // 指针画笔
-        isAntiAlias = true
+    private val pointerPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {   // 指针画笔
         strokeWidth = 1f
         style = Paint.Style.FILL
-        color = this@MeterView.color
+        color = this@SpeedMeterView.color
+        pathEffect = CornerPathEffect(4f)
     }
 
     private val dialPath = Path()                       // 表盘路径
